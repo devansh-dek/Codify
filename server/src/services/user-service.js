@@ -16,17 +16,31 @@ class UserService {
             throw error;
         }
     }
-    async login(username, password) {
+    async login(userInput) {
+        console.log("User Input is ", userInput);
         try {
-            const user = await userRepository.getByUsername(username);
+            const user = await userRepository.getByUsername(userInput.username);
+            const username = userInput.username;
+            if (!user) {
+                console.log("user doesnt exist");
+                return {
+                    message: "User doesnt exist",
+                    exist: false
+                }
+            }
+            console.log("User is ", user.dataValues);
             //compare password
-            const isPasswordCorrect = this.checkPassword(password, user.password);
+            const isPasswordCorrect = this.checkPassword(userInput.password, user.dataValues.password);
             if (!isPasswordCorrect) {
                 console.log("Passwrod doesnt match");
                 throw { wrror: 'Incorrect Password' }
             }
             const newJWT = this.createToken({ username });
-            return newJWT
+
+            return {
+                jwt: newJWT,
+                exist: true
+            }
 
         }
         catch (error) {

@@ -7,6 +7,7 @@ class CrudRepository {
     async create(data) {
         try {
             const result = await this.model.create(data);
+            return result;
         }
         catch (error) {
             throw (error);
@@ -32,7 +33,9 @@ class CrudRepository {
     }
     async getAll() {
         try {
-            const result = await this.model.find({});
+            console.log("Data came ");
+
+            const result = await this.model.findAll();
             return result;
         }
         catch (error) {

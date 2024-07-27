@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import { useRecoilValue } from 'recoil';
-// import { userIdState } from '../recoil/atoms';
+import { useRecoilValue } from 'recoil';
+import userState from '../recoil/atoms/userState';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 interface Blog {
     id: number;
@@ -15,7 +16,8 @@ interface Blog {
 }
 
 const BlogsPage: React.FC = () => {
-    const userId = 1;
+    const user = useRecoilValue(userState);
+    const userId = user.userId;
     const [blogs, setBlogs] = useState<Blog[]>([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
@@ -35,7 +37,14 @@ const BlogsPage: React.FC = () => {
     }, [currentPage]);
 
     const handleVote = async (blogId: number, voteType: 'upvote' | 'downvote') => {
+
+
         try {
+            if (!user.isAuthenticated) {
+                toast.error("Login to vote");
+                console.log("LOGIN TO ");
+                return;
+            }
             await axios.patch(`http://localhost:3000/api/v1/blogs/${blogId}/${voteType}`, { userId });
             // Refresh blogs after voting
             const response = await axios.get(`http://localhost:3000/api/v1/blogs?page=${currentPage}`);

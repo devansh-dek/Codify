@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // Ensure that the model names match exactly
       Vote.belongsTo(models.Blogs, { foreignKey: 'blogId', as: 'blog' });
-      Vote.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+      Vote.belongsTo(models.User, { foreignKey: 'userId', as: 'users' });
     }
   }
   Vote.init({

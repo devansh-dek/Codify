@@ -23,6 +23,7 @@ const create = async (req, res) => {
 const login = async (req, res) => {
     const { username, password, email } = req.body;
     try {
+        console.log("username ,pass and email are ", username, password, email);
         const response = await userService.login({ username, password, email });
         const token = response.jwt; // Ensure this token is being set correctly
 

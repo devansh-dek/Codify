@@ -20,6 +20,7 @@ class UserService {
         console.log("User Input is ", userInput);
         try {
             const user = await userRepository.getByUsername(userInput.username);
+            console.log(user, "is our user");
             const username = userInput.username;
             if (!user) {
                 console.log("user doesnt exist");
@@ -38,6 +39,9 @@ class UserService {
             const newJWT = this.createToken({ username });
 
             return {
+                username: user.username,
+                email: user.email,
+                id: user.id,
                 jwt: newJWT,
                 exist: true
             }

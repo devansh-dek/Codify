@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const apiRoutes = require('./routes/index');
 const cors = require('cors');
-
+const { Problem } = require('./models/index');
 
 const setUpAndStartServer = async (req, res) => {
     const app = new express();
@@ -26,6 +26,21 @@ const setUpAndStartServer = async (req, res) => {
 
     app.listen(3000, async () => {
         console.log("start at the port");
+        // const response = await Problem.create({
+        //     title: 'Sample Problem',
+        //     description: 'This is a sample problem description.',
+        //     sampleInput: 'Sample input',
+        //     sampleOutput: 'Sample output',
+        //     difficulty: 1,
+        //     constraint: 'No constraints',
+        //     explanation: 'Sample explanation',
+        //     inputFormat: 'Sample input format',
+        //     outputFormat: 'Sample output format'
+
+        // })
+        // console.log("REsponse is ", response);
+
+
     })
 
 

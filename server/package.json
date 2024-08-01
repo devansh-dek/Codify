@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npx nodemon src/index",
+    "start": "node src/index.js",
+    "worker": "node workers/worker.js",
+    "dev": "concurrently \"nodemon src/index.js\" \"nodemon src/workers/worker.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "devnaans\u001b[C khandelwal",

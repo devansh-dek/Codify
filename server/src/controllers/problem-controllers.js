@@ -37,8 +37,24 @@ const getAll = async (req, res) => {
         })
     }
 }
-
+const getProblems = async (req, res) => {
+    try {
+        const { page } = req.query;
+        const response = await problemService.getProblems(Number(page));
+        return res.status(StatusCodes.ACCEPTED).json({
+            response,
+            success: true
+        });
+    } catch (error) {
+        console.log("error is ", error);
+        res.status(StatusCodes.BAD_GATEWAY).json({
+            error: error.message,
+            success: false
+        });
+    }
+}
 module.exports = {
     create,
-    getAll
+    getAll,
+    getProblems
 }

@@ -17,10 +17,10 @@ router.post('/vote', VoteController.vote);
 //problems
 router.post('/problem', ProblemController.create);
 router.get('/problem', ProblemController.getAll);
+router.get('/problems', ProblemController.getProblems);
 //testcases
 router.post('/testcase', TestCaseController.create);
 //submissions
 router.post('/submission', SubmissionController.create);
-
 
 module.exports = router

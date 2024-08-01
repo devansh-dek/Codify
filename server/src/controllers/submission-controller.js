@@ -6,7 +6,7 @@ const submissionService = new SubmissionService();
 
 const create = async (req, res) => {
     try {
-        console.log('req boyd is ')
+        console.log('req boyd is ', req.body);
         const submission = {
             problemId: Number(req.body.problemId),
             language: req.body.language,
@@ -16,6 +16,7 @@ const create = async (req, res) => {
 
 
         }
+        console.log('Submission is ', submission);
         const response = await submissionService.create(submission);
         return res.status(StatusCodes.ACCEPTED).json({
             success: true,

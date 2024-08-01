@@ -1,23 +1,17 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-  class TestCases extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+  class TestCase extends Model {
     static associate(models) {
-      // define association here
-      TestCases.belongsTo(models.Problem, {
+      TestCase.belongsTo(models.Problem, {
         foreignKey: 'problemId',
         as: 'problem',
       });
     }
   }
-  TestCases.init({
+
+  TestCase.init({
     problemId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -32,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'TestCases',
+    modelName: 'TestCase', // Ensure consistent naming
   });
-  return TestCases;
+
+  return TestCase;
 };

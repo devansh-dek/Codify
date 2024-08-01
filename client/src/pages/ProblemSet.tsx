@@ -6,7 +6,8 @@ import React, { useEffect, useState } from 'react'
 interface Problem {
     id: number,
     title: string,
-    difficulty: string
+    discription: string,
+    difficulty: number
 }
 
 function ProblemSet() {
@@ -16,9 +17,9 @@ function ProblemSet() {
     useEffect(() => {
         const fetchProblems = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/v1/problem?page=${currentPage}`);
-                console.log("response is ", response);
-                setProblems(response.data.response);
+                const response = await axios.get(`http://localhost:3000/api/v1/problems?page=${currentPage}`);
+                console.log("response is ", response.data.response.problems);
+                setProblems(response.data.response.problems);
                 console.log("PRobelms are ", problems);
                 setTotalPages(response.data.totalPages);
             } catch (error) {
@@ -32,7 +33,7 @@ function ProblemSet() {
         <>
             <div className='font-bold p-2 m-2 text-4xl'>ProblemSet</div>
             {/* //list of all problems */}
-            <div className='grid grid-cols-12 w-screen justify-between'>
+            <div className='grid grid-cols-12  justify-between'>
                 <h1 className='text-2xl col-span-1 border border-slate-400 font-medium m-1 p-4'>Id</h1>
                 <h1 className='text-2xl col-span-9 border border-slate-400 font-medium m-1 p-4'>Title</h1>
                 <h1 className='text-2xl col-span-2 border border-slate-400 font-medium m-1 p-4'>Difficulty</h1>

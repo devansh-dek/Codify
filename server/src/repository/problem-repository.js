@@ -1,5 +1,5 @@
 const CrudRepository = require("./crud-repository");
-const { Problem } = require('../models');
+const { Problem } = require('../models/index');
 console.log(Problem, "is problem");
 class ProblemRepository extends CrudRepository {
     constructor() {

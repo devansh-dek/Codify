@@ -18,6 +18,8 @@ router.post('/vote', VoteController.vote);
 router.post('/problem', ProblemController.create);
 router.get('/problem', ProblemController.getAll);
 router.get('/problems', ProblemController.getProblems);
+router.get('/problems/:id', ProblemController.getProblemId);
+
 //testcases
 router.post('/testcase', TestCaseController.create);
 //submissions

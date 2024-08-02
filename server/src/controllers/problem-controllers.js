@@ -47,14 +47,37 @@ const getProblems = async (req, res) => {
         });
     } catch (error) {
         console.log("error is ", error);
+        console.log("Error in create funtion of prob0 ", error);
+
         res.status(StatusCodes.BAD_GATEWAY).json({
             error: error.message,
             success: false
         });
     }
 }
+
+const getProblemId = async (req, res) => {
+    try {
+        const id = req.params.id
+        console.log("id is ", id);
+        const response = await problemService.getById(id);
+        return res.status(StatusCodes.ACCEPTED).json({
+            response,
+            success: true
+        })
+    }
+    catch (error) {
+        console.log("Error in create funtion of prob0 ", error);
+
+        return res.status(StatusCodes.BAD_GATEWAY).json({
+            error: error.message,
+            success: false
+        })
+    }
+}
 module.exports = {
     create,
     getAll,
-    getProblems
+    getProblems,
+    getProblemId
 }

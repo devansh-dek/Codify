@@ -20,6 +20,15 @@ class ProblemService {
             throw error;
         }
     }
+    async getById(id) {
+        try {
+            const response = await problemRepository.getById(id);
+            console.log("data is ", response);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
     async getProblems(page) {
         try {
             const result = await problemRepository.getProblems(page);

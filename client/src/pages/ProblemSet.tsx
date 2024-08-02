@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 
 //fetching all problems
@@ -44,7 +45,7 @@ function ProblemSet() {
                 {problems?.map((problem) => (
                     <div className='grid grid-cols-12 w-screen justify-between'>
                         <div className='text-pretty font-semibold col-span-1 p-2 m-2 text-xl border border-slate-400'>{problem.id}</div>
-                        <div className='text-pretty font-semibold col-span-9 p-2 m-2 text-xl border border-slate-400'>{problem.title}</div>
+                        <Link to={`${problem.id}`} className='text-pretty font-semibold col-span-9 p-2 m-2 text-xl border border-slate-400'>{problem.title}</Link >
                         <div className='text-pretty font-semibold col-span-2 p-2 m-2 text-xl border border-slate-400'>{problem.difficulty}</div>
                     </div>
                 ))}

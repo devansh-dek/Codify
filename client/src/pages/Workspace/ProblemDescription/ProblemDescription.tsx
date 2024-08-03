@@ -1,5 +1,5 @@
 import React from 'react';
-import { Problem } from '../../utils/types/problems';
+import { Problem } from '../../../utils/types/problems';
 
 type ProblemDescProps = {
     problem: Problem;

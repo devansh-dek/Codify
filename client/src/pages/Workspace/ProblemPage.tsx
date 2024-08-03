@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ProblemDescription from './ProblemDescription';
+import ProblemDescription from './ProblemDescription/ProblemDescription';
 import { Problem } from '../../utils/types/problems';
+import CodeEditor from './CodeEditor/CodeEditor';
 // import CodeEditor from './CodeEditor'; // Assume you have a CodeEditor component
 
 const ProblemPage = () => {
@@ -32,10 +33,11 @@ const ProblemPage = () => {
                 <ProblemDescription problem={problem} />
             </div>
             <div className="w-1/2 p-4">
-                {/* <CodeEditor problemId={id} /> */}
+                <CodeEditor problemId={id} />
                 <h1>CODE EDITOR</h1>
             </div>
         </div>
+
     );
 };
 

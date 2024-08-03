@@ -30,21 +30,8 @@ const create = async (req, res) => {
         })
     }
 }
-const runCode = async (req, res) => {
-    try {
-        const output = await submissionService.runcode(req.body.code, req.body.input);
-        return res.status(StatusCodes.ACCEPTED).json({
-            output,
-            success: true
-        })
-    } catch (error) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-            error: error.message,
-            success: false
-        })
-    }
-}
+
 module.exports = {
     create,
-    runCode
+
 }

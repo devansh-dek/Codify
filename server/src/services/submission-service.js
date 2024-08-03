@@ -35,16 +35,7 @@ class SubmissionService {
             throw error;
         }
     }
-    async runcode(code, input) {
-        try {
-            const output = await executeCode(code, input);
-            let excutedoutput = output.trim();
-            return excutedoutput;
 
-        } catch (error) {
-            throw error;
-        }
-    }
 }
 
 module.exports = SubmissionService;

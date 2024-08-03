@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import ProblemDescription from './ProblemDescription/ProblemDescription';
 import { Problem } from '../../utils/types/problems';
 import CodeEditor from './CodeEditor/CodeEditor';
-// import CodeEditor from './CodeEditor'; // Assume you have a CodeEditor component
+import Split from 'react-split';
 
 const ProblemPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -28,16 +28,17 @@ const ProblemPage = () => {
     }
 
     return (
-        <div className="flex h-screen">
-            <div className="w-1/2 overflow-auto border-r">
-                <ProblemDescription problem={problem} />
-            </div>
-            <div className="w-1/2 p-4">
-                <CodeEditor problemId={id} />
-                <h1>CODE EDITOR</h1>
-            </div>
-        </div>
+        <div>
+            <Split className='split' minSize={0}>
 
+                <div className='overflow-auto'>
+                    <ProblemDescription problem={problem} />
+                </div>
+                <div className='p-4'>
+                    <CodeEditor problemId={id} />
+                </div>
+            </Split>
+        </div>
     );
 };
 

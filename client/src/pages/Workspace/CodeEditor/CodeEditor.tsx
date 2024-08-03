@@ -10,12 +10,14 @@ const CodeEditor = ({ problemId }: any) => {
     const [output, setOutput] = useState('');
     const [verdict, setVerdict] = useState('');
     const [loading, setLoading] = useState(false);
-
+    let language = 'cpp';
+    let type = 'Run', userId = 1, status = 'pending';
     const handleRunCode = async () => {
         setLoading(true);
         setVerdict('');
         try {
-            const response = await axios.post('http://localhost:3000/api/v1/runcode', { code, input });
+            const response = await axios.post('http://localhost:3000/api/v1/runcode', { code, input, language, type, problemId, userId, status });
+            console.log("Output response is ", response);
             setOutput(response.data.output);
         } catch (error) {
             console.error('Error running code:', error);
@@ -28,7 +30,7 @@ const CodeEditor = ({ problemId }: any) => {
         setLoading(true);
         setOutput('');
         try {
-            const response = await axios.post('http://localhost:3000/api/v1/submission', { code, problemId });
+            const response = await axios.post('http://localhost:3000/api/v1/submission', { code, input, language, type, problemId, userId, status });
             setVerdict(response.data.verdict);
         } catch (error) {
             console.error('Error submitting code:', error);

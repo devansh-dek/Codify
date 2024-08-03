@@ -13,6 +13,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
+      type: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        default: "Submission"
+      },
       problemId: {
         type: Sequelize.INTEGER,
         allowNull: false
@@ -32,6 +37,10 @@ module.exports = {
       },
       verdict: {
         type: Sequelize.STRING,
+        allowNull: true
+      },
+      output: {
+        type: Sequelize.TEXT,
         allowNull: true
       },
       createdAt: {

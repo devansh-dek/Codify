@@ -24,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: "Submission"
+    },
     code: {
       type: DataTypes.TEXT,
       allowNull: false
@@ -41,6 +46,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
+    output: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    }
   }, {
     sequelize,
     modelName: 'Submission',

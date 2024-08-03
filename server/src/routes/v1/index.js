@@ -24,5 +24,5 @@ router.get('/problems/:id', ProblemController.getProblemId);
 router.post('/testcase', TestCaseController.create);
 //submissions
 router.post('/submission', SubmissionController.create);
-
+router.post('/runcode', SubmissionController.create);
 module.exports = router

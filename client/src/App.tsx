@@ -9,7 +9,7 @@ import ProblemSet from './pages/ProblemSet'
 import Blogs from './pages/Blogs'
 import Profile from './pages/Profile'
 import Contests from './pages/Contests'
-import ProblemPage from './pages/ProblemPage'
+import ProblemPage from './pages/Workspace/ProblemPage'
 
 const router = createBrowserRouter(
   createRoutesFromElements(

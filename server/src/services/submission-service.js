@@ -7,27 +7,40 @@ const { createChannel, publishMessage } = require('../utils/MessageQueues/messag
 const { executeCode } = require('../utils/Executors/codeExecutors');
 const { TestCase } = require('../models/');
 
-console.log("TEStcases are ", TestCase);
+// console.log("TEStcases are ", TestCase);
 
 class SubmissionService {
     async create(data) {
         try {
             // Creating a new submission entry
+            console.log("SUbmission service data ,", data);
             const submission = await submissionRepository.create(data);
-            const problemId = Number(data.problemId);
-            console.log(problemId, 'is problem iddd');
+            console.log("dat a type is ", data.type);
+            if (data.type === 'Run') {
+                console.log("here");
+                const message = JSON.stringify({ submissionId: submission.id, code: data.code, input: data.input, type: data.type });
+                const channel = await createChannel();
 
-            // Fetching problem's test cases
-            const testCases = await testcaseRepository.getAllTests(problemId);
-            console.log("testcases all are ", testCases);
-
-            //calling out rabitmq queue
-            const channel = await createChannel();
-            for (const testCase of testCases) {
-                const message = JSON.stringify({ submissionId: submission.id, problemId, code: data.code, input: testCase.dataValues.input, expectedOutput: testCase.dataValues.expectedOutput });
                 await publishMessage(channel, 'CODE_EXECUTION', message);
+                return submission;
+            }
+            else {
+
+                const problemId = Number(data.problemId);
+                // console.log(problemId, 'is problem iddd');
+
+                // Fetching problem's test cases
+                const testCases = await testcaseRepository.getAllTests(problemId);
+                // console.log("testcases all are ", testCases);
+
+                //calling out rabitmq queue
+                const channel = await createChannel();
+                for (const testCase of testCases) {
+                    const message = JSON.stringify({ submissionId: submission.id, problemId, code: data.code, input: testCase.dataValues.input, expectedOutput: testCase.dataValues.expectedOutput });
+                    await publishMessage(channel, 'CODE_EXECUTION', message);
 
 
+                }
             }
 
             return submission;
@@ -35,6 +48,7 @@ class SubmissionService {
             throw error;
         }
     }
+
 
 }
 

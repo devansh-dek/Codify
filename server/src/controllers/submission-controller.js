@@ -12,8 +12,9 @@ const create = async (req, res) => {
             language: req.body.language,
             stauts: req.body.status,
             userId: Number(req.body.userId),
-            code: req.body.code
-
+            input: req.body.input,
+            code: req.body.code,
+            type: req.body.type
 
         }
         console.log('Submission is ', submission);

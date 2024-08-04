@@ -2,49 +2,42 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const apiRoutes = require('./routes/index');
 const cors = require('cors');
-const { Problem } = require('./models/index');
+const socketIo = require('socket.io');
+const http = require('http');
 
-const setUpAndStartServer = async (req, res) => {
-    const app = new express();
-    // app.use(cors({}));
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-    const corsOptions = {
-        origin: 'http://localhost:5173', // Change this to match your frontend origin
-        credentials: true // Allow cookies and authorization headers
-    };
+// WebSocket connection handling
+io.on('connection', (socket) => {
+    console.log("WebSocket connected");
+    socket.on('disconnect', () => {
+        console.log("WebSocket disconnected");
+    });
+});
 
-    app.use(cors(corsOptions));
+// Middleware setup
+const corsOptions = {
+    // Adjust this to match your frontend origin
+    credentials: true // Allow cookies and authorization headers
+};
 
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/api', apiRoutes);
 
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use('/api', apiRoutes);
-
-
-
-
-
-    app.listen(3000, async () => {
-        console.log("start at the port");
-        // const response = await Problem.create({
-        //     title: 'Sample Problem',
-        //     description: 'This is a sample problem description.',
-        //     sampleInput: 'Sample input',
-        //     sampleOutput: 'Sample output',
-        //     difficulty: 1,
-        //     constraint: 'No constraints',
-        //     explanation: 'Sample explanation',
-        //     inputFormat: 'Sample input format',
-        //     outputFormat: 'Sample output format'
-
-        // })
-        // console.log("REsponse is ", response);
-
-
-    })
-
-
-}
-
+// Start server and WebSocket
+const setUpAndStartServer = () => {
+    server.listen(3000, () => {
+        console.log("Server running on port 3000");
+    });
+};
 
 setUpAndStartServer();
+
+module.exports = {
+    io,
+    server // Export the server if you need it for testing or other purposes
+};

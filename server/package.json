@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon src/index.js",
-    "worker": "node workers/worker.js",
-    "dev": "concurrently \"nodemon src/index.js\" \"nodemon src/workers/worker.js\"",
+    "worker": "npx nodemon src/worker/worker.js",
+    "dev": "concurrently \"npm run start\" \"npm run worker\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "devnaans\u001b[C khandelwal",
@@ -25,6 +25,7 @@
     "nodemon": "^3.1.4",
     "pm2": "^5.4.2",
     "sequelize": "^6.37.3",
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "^6.6.2",
+    "socket.io": "^4.7.5"
   }
 }

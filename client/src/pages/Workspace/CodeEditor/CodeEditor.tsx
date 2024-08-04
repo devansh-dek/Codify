@@ -1,42 +1,84 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { TailSpin } from 'react-loader-spinner';
-// interface problemId = {
-//     problemId: Number
-// }
-const CodeEditor = ({ problemId }: any) => {
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:3000', {
+    transports: ['websocket'], // Ensure websocket transport is used
+});
+
+const CodeEditor = ({ problemId }) => {
     const [code, setCode] = useState('');
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
     const [verdict, setVerdict] = useState('');
     const [loading, setLoading] = useState(false);
+    const [submissionId, setSubmissionId] = useState<string | null>(null);
+
     let language = 'cpp';
-    let type = 'Run', userId = 1, status = 'pending';
+    let type = 'Run';
+    let userId = 1;
+    let status = 'pending';
+
+    useEffect(() => {
+        if (submissionId) {
+            console.log("Listening for code execution results...");
+            const handleCodeExecuted = (data) => {
+                if (data.submissionId === submissionId) {
+                    setOutput(data.output);
+                    setLoading(false);
+                    setSubmissionId(null); // Reset submissionId to stop listening for this specific event
+                }
+            };
+
+            const handleSubmissionVerdict = (data) => {
+                if (data.submissionId === submissionId) {
+                    setVerdict(data.verdict);
+                    setLoading(false);
+                    setSubmissionId(null); // Reset submissionId to stop listening for this specific event
+                }
+            };
+
+            socket.on('codeExecuted', handleCodeExecuted);
+            socket.on('submissionVerdict', handleSubmissionVerdict);
+
+            return () => {
+                socket.off('codeExecuted', handleCodeExecuted);
+                socket.off('submissionVerdict', handleSubmissionVerdict);
+            };
+        }
+    }, [submissionId]);
+
     const handleRunCode = async () => {
+        type = 'Run';
         setLoading(true);
         setVerdict('');
+        setOutput('');
         try {
             const response = await axios.post('http://localhost:3000/api/v1/runcode', { code, input, language, type, problemId, userId, status });
-            console.log("Output response is ", response);
-            setOutput(response.data.output);
+            console.log("Run code response is ", response.data);
+            setSubmissionId(response.data.response.id); // Assuming the response contains the submission id
         } catch (error) {
             console.error('Error running code:', error);
             setOutput('Error running code');
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const handleSubmitCode = async () => {
+        type = "Submission";
         setLoading(true);
         setOutput('');
+        setVerdict('');
         try {
             const response = await axios.post('http://localhost:3000/api/v1/submission', { code, input, language, type, problemId, userId, status });
-            setVerdict(response.data.verdict);
+            console.log("Submit code response is ", response.data);
+            setSubmissionId(response.data.response.id); // Assuming the response contains the submission id
         } catch (error) {
             console.error('Error submitting code:', error);
             setVerdict('Error submitting code');
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (

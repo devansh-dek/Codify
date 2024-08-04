@@ -26,6 +26,8 @@
     "react-split": "^2.0.14",
     "react-toastify": "^10.0.5",
     "recoil": "^0.7.7",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "split.js": "^1.6.5",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7"

@@ -39,7 +39,7 @@ const ProblemPage = () => {
                 </div>
             </Split>
         </div>
-   
+    )
 };
 
 export default ProblemPage;

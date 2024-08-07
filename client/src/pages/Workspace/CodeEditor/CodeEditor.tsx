@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { TailSpin } from 'react-loader-spinner';
 import io from 'socket.io-client';
-
+import toast from 'react-hot-toast';
+import { useRecoilValue } from 'recoil';
+import userState from '../../../recoil/atoms/userState';
 const socket = io('http://localhost:3000', {
     transports: ['websocket'], // Ensure websocket transport is used
 });
 
 const CodeEditor = ({ problemId }) => {
+    const user = useRecoilValue(userState);
     const [code, setCode] = useState('');
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
@@ -23,19 +26,19 @@ const CodeEditor = ({ problemId }) => {
     useEffect(() => {
         if (submissionId) {
             console.log("Listening for code execution results...");
-            const handleCodeExecuted = (data) => {
+            const handleCodeExecuted = (data: any) => {
                 if (data.submissionId === submissionId) {
                     setOutput(data.output);
                     setLoading(false);
-                    setSubmissionId(null); // Reset submissionId to stop listening for this specific event
+                    setSubmissionId(null);
                 }
             };
 
-            const handleSubmissionVerdict = (data) => {
+            const handleSubmissionVerdict = (data: any) => {
                 if (data.submissionId === submissionId) {
                     setVerdict(data.verdict);
                     setLoading(false);
-                    setSubmissionId(null); // Reset submissionId to stop listening for this specific event
+                    setSubmissionId(null);
                 }
             };
 
@@ -50,6 +53,10 @@ const CodeEditor = ({ problemId }) => {
     }, [submissionId]);
 
     const handleRunCode = async () => {
+        if (!user.isAuthenticated) {
+            toast.error("Login to vote");
+            return;
+        }
         type = 'Run';
         setLoading(true);
         setVerdict('');
@@ -66,6 +73,11 @@ const CodeEditor = ({ problemId }) => {
     };
 
     const handleSubmitCode = async () => {
+        if (!user.isAuthenticated) {
+            toast.error("Login to vote");
+            console.log("LOGIN TO ");
+            return;
+        }
         type = "Submission";
         setLoading(true);
         setOutput('');

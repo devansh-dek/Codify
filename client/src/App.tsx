@@ -10,6 +10,7 @@ import Blogs from './pages/Blogs'
 import Profile from './pages/Profile'
 import Contests from './pages/Contests'
 import ProblemPage from './pages/Workspace/ProblemPage'
+import CreateBlog from './pages/CreateBlog'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
       <Route path='profile' element={<Profile />} />
       <Route path='Contests' element={<Contests />} />
       <Route path='problemset/:id' element={<ProblemPage />} />
+      <Route path='/createblog' element={<CreateBlog />} />
     </Route>
 
   )

@@ -10,7 +10,7 @@ class TestCaseRepository extends CrudRepository {
             console.log("problem id is ", problemId);
             const tests = await TestCase.findAll({
                 where: {
-                    problemId: 1
+                    problemId: problemId
                 }
             })
             console.log("TSTS ARE ", tests);

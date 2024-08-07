@@ -50,7 +50,12 @@ const login = async (req, res) => {
 
 const isAuthenticated = async (req, res) => {
     try {
-        const token = req.headers['x-access-token'];
+        console.log("headers are", req.cookies.token);
+        const token = req.cookies.token; // Get token from cookies
+        console.log(token, 'is our token');
+        if (!token) {
+            throw new Error("Token not provided");
+        }
         console.log(token, 'is our token');
         const response = await userService.isAuthenticated(token);
         return res.status(200).json({
@@ -60,10 +65,10 @@ const isAuthenticated = async (req, res) => {
         })
     }
     catch (error) {
-
+        console.log("error is ", error);
         return res.status(404).json({
             success: false,
-            error
+            error: error.message
         })
     }
 }

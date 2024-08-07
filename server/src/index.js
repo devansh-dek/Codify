@@ -4,6 +4,7 @@ const apiRoutes = require('./routes/index');
 const cors = require('cors');
 const socketIo = require('socket.io');
 const http = require('http');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const server = http.createServer(app);
@@ -19,13 +20,16 @@ io.on('connection', (socket) => {
 
 // Middleware setup
 const corsOptions = {
-    // Adjust this to match your frontend origin
-    credentials: true // Allow cookies and authorization headers
+    origin: 'http://localhost:5173', // Adjust this to match your frontend origin
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Allow cookies and authorization headers
+    allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser()); // Use cookie-parser
 app.use('/api', apiRoutes);
 
 // Start server and WebSocket

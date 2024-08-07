@@ -4,7 +4,7 @@ const { UserController, BlogController, VoteController, ProblemController, TestC
 // authentication
 router.post('/signup', UserController.create);
 router.post('/login', UserController.login);
-router.post('/isauthenticated', UserController.isAuthenticated);
+router.get('/isauthenticated', UserController.isAuthenticated);
 
 //blogs
 

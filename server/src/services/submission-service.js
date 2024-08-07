@@ -27,7 +27,7 @@ class SubmissionService {
             else {
 
                 const problemId = Number(data.problemId);
-                // console.log(problemId, 'is problem iddd');
+                console.log(problemId, 'is problem iddd');
 
                 // Fetching problem's test cases
                 const testCases = await testcaseRepository.getAllTests(problemId);

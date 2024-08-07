@@ -23,7 +23,9 @@ const processSubmission = async (data) => {
 
             console.log("Below");
             const { submissionId, problemId, code, input, expectedOutput, type } = data;
+
             const executionOutput = await executeCode(code, input);
+            console.log("Execution output is ", executionOutput, " For input ", input);
             let verdict = 'Accepted';
             if (executionOutput.trim() !== expectedOutput.trim()) {
                 verdict = 'Wrong Answer';

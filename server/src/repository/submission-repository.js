@@ -7,5 +7,18 @@ class SubmissionRepository extends CrudRepository {
     constructor() {
         super(Submission);
     }
+    async getByUserId(userId) {
+        try {
+            const submissions = await Submission.findAll({
+                where: {
+                    userId: userId
+                }
+            })
+            return submissions;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 }
 module.exports = SubmissionRepository;

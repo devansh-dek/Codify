@@ -25,4 +25,5 @@ router.post('/testcase', TestCaseController.create);
 //submissions
 router.post('/submission', SubmissionController.create);
 router.post('/runcode', SubmissionController.create);
+router.get('/submission', SubmissionController.showSubmissions);
 module.exports = router

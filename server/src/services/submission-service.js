@@ -48,7 +48,16 @@ class SubmissionService {
             throw error;
         }
     }
-
+    async getSubmissionsById(Id) {
+        try {
+            console.log("Function id is ", Id);
+            const response = await submissionRepository.getByUserId(Id);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 
 }
 

@@ -3,7 +3,23 @@ const { SubmissionService } = require("../services");
 
 
 const submissionService = new SubmissionService();
+const showSubmissions = async (req, res) => {
+    try {
+        console.log("User id is ", req.body.userId);
+        const submissions = await submissionService.getSubmissionsById(1);
+        return res.status(StatusCodes.ACCEPTED).json({
+            success: true,
+            submissions
+        })
 
+    } catch (error) {
+        console.log("error is ", error);
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            success: false,
+            error: error.message
+        })
+    }
+}
 const create = async (req, res) => {
     try {
         console.log('req boyd is ', req.body);
@@ -32,7 +48,8 @@ const create = async (req, res) => {
     }
 }
 
+
 module.exports = {
     create,
-
+    showSubmissions
 }

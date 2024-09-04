@@ -32,11 +32,10 @@ const executeCode = async (code, input) => {
                     resolve(relevantErrorLines);
                 } else {
                     console.log('No /app/code.cpp related error found.');
-                    resolve(stderr);
+                    resolve(stdout);
                 }
             } else {
                 console.log('Execution Output:', stdout);
-                resolve(stdout);
             }
         });
     });

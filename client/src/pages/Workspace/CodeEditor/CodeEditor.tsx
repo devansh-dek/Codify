@@ -20,7 +20,7 @@ const CodeEditor = ({ problemId }) => {
 
     let language = 'cpp';
     let type = 'Run';
-    let userId = 1;
+    let userId = user.userId;
     let status = 'pending';
 
     useEffect(() => {
@@ -54,7 +54,7 @@ const CodeEditor = ({ problemId }) => {
 
     const handleRunCode = async () => {
         if (!user.isAuthenticated) {
-            toast.error("Login to vote");
+            toast.error("Login to run code!");
             return;
         }
         type = 'Run';
@@ -74,7 +74,7 @@ const CodeEditor = ({ problemId }) => {
 
     const handleSubmitCode = async () => {
         if (!user.isAuthenticated) {
-            toast.error("Login to vote");
+            toast.error("Login to run code!");
             console.log("LOGIN TO ");
             return;
         }
@@ -85,7 +85,7 @@ const CodeEditor = ({ problemId }) => {
         try {
             const response = await axios.post('http://localhost:3000/api/v1/submission', { code, input, language, type, problemId, userId, status });
             console.log("Submit code response is ", response.data);
-            setSubmissionId(response.data.response.id); // Assuming the response contains the submission id
+            setSubmissionId(response.data.response.id);
         } catch (error) {
             console.error('Error submitting code:', error);
             setVerdict('Error submitting code');

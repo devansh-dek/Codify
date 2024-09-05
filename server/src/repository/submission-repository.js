@@ -11,7 +11,8 @@ class SubmissionRepository extends CrudRepository {
         try {
             const submissions = await Submission.findAll({
                 where: {
-                    userId: userId
+                    userId: userId,
+                    type: "Submission"
                 }
             })
             return submissions;

@@ -6,7 +6,8 @@ const submissionService = new SubmissionService();
 const showSubmissions = async (req, res) => {
     try {
         console.log("User id is ", req.body.userId);
-        const submissions = await submissionService.getSubmissionsById(1);
+        const userId = req.params.userId
+        const submissions = await submissionService.getSubmissionsById(userId);
         return res.status(StatusCodes.ACCEPTED).json({
             success: true,
             submissions

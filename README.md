@@ -1,6 +1,5 @@
-# Custom Codeforces Clone
+# Codify
 
-![Custom Codeforces](https://img.shields.io/badge/React-18.x-blue?style=flat-square)
 ![Express](https://img.shields.io/badge/Express-4.x-green?style=flat-square)
 ![Docker](https://img.shields.io/badge/Docker-Container-blue?style=flat-square)
 

@@ -15,7 +15,7 @@ import CreateBlog from './pages/CreateBlog'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout />} >
-      <Route path='' element={<Pages />} />
+      <Route path='' element={<Blogs />} />
       <Route path='login' element={<Login />} />
       <Route path='register' element={<Register />} />
       <Route path='blogs' element={<Blogs />} />

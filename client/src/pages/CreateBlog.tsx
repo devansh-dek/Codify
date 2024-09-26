@@ -20,23 +20,7 @@ function CreateBlog() {
             const response = await axios.post('http://localhost:3000/api/v1/blogs', formValue);
             console.log(response, "Is our response");
 
-            // if (response.data.exist === false) {
-            //     console.log("User doesn't exist");
-            //     return;
-            // }
-
-            // if (response.data.success === true) {
-            //     console.log("Came HERE");
-            //     const userLogged = {
-            //         userId: response.data.response.id,
-            //         username: response.data.response.username,
-            //         email: response.data.response.email,
-            //         isAuthenticated: true
-            // }
             navigate('/blogs');
-
-            // Handle redirection or other actions on successful login
-            // }
 
             console.log(response.data);
         } catch (error: any) {

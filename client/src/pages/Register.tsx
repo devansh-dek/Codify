@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaUserAlt, FaLock } from 'react-icons/fa';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -38,8 +38,8 @@ const Register: React.FC = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-700">
-            <div className="relative w-full max-w-md p-8 bg-gray-800 rounded-xl shadow-2xl">
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r ">
+            <div className="relative w-full max-w-md p-8 bg-gray-600 rounded-xl shadow-2xl">
                 <form onSubmit={handleSubmit} className="relative z-10">
                     <h2 className="text-4xl font-bold text-white mb-8 text-center">Register</h2>
                     <div className="mb-6">
@@ -91,6 +91,11 @@ const Register: React.FC = () => {
                         Register
                     </button>
                 </form>
+                <div className='p-2 m-2 flex justify-center'>Dont have a account ,
+                    <Link to="/login" className='font-bold'>
+                        Login!
+                    </Link>
+                </div>
             </div>
         </div>
     );

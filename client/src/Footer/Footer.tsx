@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa'; // Add icons for social links
+import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
     return (
@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
                 </div>
                 <div className="flex space-x-4">
                     <a
-                        href="https://github.com/your-profile"
+                        href="https://github.com/devansh-dek/Codify"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-white transition-colors duration-300"
@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
                         <FaGithub size={24} />
                     </a>
                     <a
-                        href="https://twitter.com/your-profile"
+                        href="https://github.com/devansh-dek/Codify"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-white transition-colors duration-300"
@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
                         <FaTwitter size={24} />
                     </a>
                     <a
-                        href="https://linkedin.com/in/your-profile"
+                        href="https://www.linkedin.com/in/devansh-khandelwal-dek/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-gray-400 hover:text-white transition-colors duration-300"

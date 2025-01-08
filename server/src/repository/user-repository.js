@@ -20,7 +20,22 @@ class UserRepository extends CrudRepository {
             throw error;
         }
     }
-
+    async getByEmail(email) {
+        try {
+            const result = await User.findOne(
+                {
+                    where: {
+                        email: email
+                    }
+                }
+            )
+            return result
+        }
+        catch (error) {
+            console.log("Error in user repo");
+            throw error;
+        }
+    }
 
 }
 module.exports = UserRepository;    

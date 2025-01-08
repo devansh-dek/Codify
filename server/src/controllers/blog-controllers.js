@@ -56,7 +56,7 @@ const upVote = async (req, res) => {
 const downVote = async (req, res) => {
     try {
         const { id } = req.params;
-        const userId = req.body.userId  // Assuming user ID is in the request context
+        const userId = req.body.userId
         const response = await blogService.downvoteBlog(userId, id);
         return res.status(StatusCodes.OK).json({
             success: true,

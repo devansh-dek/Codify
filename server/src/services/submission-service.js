@@ -58,6 +58,15 @@ class SubmissionService {
             throw error;
         }
     }
+    async heatMap(userId) {
+        try {
+            const response = await submissionRepository.heatMap(userId);
+            return response;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 
 }
 

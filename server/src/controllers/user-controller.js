@@ -19,42 +19,45 @@ const create = async (req, res) => {
 
     }
 }
-// login-controller.js
 const login = async (req, res) => {
-    const { username, password, email } = req.body;
-    try {
-        console.log("username ,pass and email are ", username, password, email);
-        const response = await userService.login({ username, password, email });
-        const token = response.jwt; // Ensure this token is being set correctly
+    const { email, password } = req.body;
 
-        res.cookie('token', token, {
+    try {
+        if (!email || !password) {
+            return res.status(400).json({ success: false, message: "Email and password are required." });
+        }
+
+        const response = await userService.login({ email, password });
+        if (!response) {
+            return res.status(401).json({ success: false, message: "Invalid credentials." });
+        }
+
+        const { jwt } = response;
+        res.cookie('token', jwt, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
             maxAge: 3600000,
         });
 
-        return res.status(200).json({
-            success: true,
-            message: 'Login successful',
-            response
-        });
+        return res.status(200).json({ success: true, message: "Login successful", response });
     } catch (error) {
-        console.log("Error in login-controller:", error.message);
-        return res.status(401).json({
-            success: false,
-            error: error.message // Send back the error message
-        });
+        console.error("Error in login controller:", error);
+        return res.status(500).json({ success: false, message: "Internal server error." });
     }
 };
+
 
 const isAuthenticated = async (req, res) => {
     try {
         console.log("headers are", req.cookies.token);
-        const token = req.cookies.token; // Get token from cookies
+        const token = req.cookies.token;
         console.log(token, 'is our token');
         if (!token) {
-            throw new Error("Token not provided");
+            return res.status(200).json({
+                success: true,
+                message: "User is not Authenticated"
+            })
         }
         console.log(token, 'is our token');
         const response = await userService.isAuthenticated(token);

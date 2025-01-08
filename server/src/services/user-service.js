@@ -19,9 +19,9 @@ class UserService {
     async login(userInput) {
         console.log("User Input is ", userInput);
         try {
-            const user = await userRepository.getByUsername(userInput.username);
+            const user = await userRepository.getByEmail(userInput.email);
             console.log(user, "is our user");
-            const username = userInput.username;
+            const email = userInput.email;
             if (!user) {
                 console.log("user doesnt exist");
                 return {
@@ -36,10 +36,10 @@ class UserService {
                 console.log("Passwrod doesnt match");
                 throw { wrror: 'Incorrect Password' }
             }
-            const newJWT = this.createToken({ username });
-
+            const newJWT = this.createToken({ email });
+            console.log("new jwt is ", newJWT)
             return {
-                username: user.username,
+                email: user.email,
                 email: user.email,
                 id: user.id,
                 jwt: newJWT,

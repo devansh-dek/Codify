@@ -48,9 +48,25 @@ const create = async (req, res) => {
         })
     }
 }
-
+const heatMap = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const response = await submissionService.heatMap(userId);
+        return res.status(StatusCodes.ACCEPTED).json({
+            success: true,
+            response: response
+        })
+    }
+    catch (error) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+            success: false,
+            error: error.message
+        })
+    }
+}
 
 module.exports = {
     create,
-    showSubmissions
+    showSubmissions,
+    heatMap
 }

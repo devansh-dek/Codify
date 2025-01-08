@@ -35,8 +35,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ userId }) => {
     // Mapping submission counts to Tailwind classes for color scaling
     const getClassForValue = (value: { count: number } | undefined) => {
         if (!value || value.count === 0) return 'bg-gray-200'; // Tailwind gray-200 for empty
-        if (value.count === 1) return 'bg-lime-300';  // Tailwind lime-300 for low activity
-        if (value.count === 2) return 'bg-green-300';  // Tailwind green-300
+        if (value.count === 1) return 'bg-lime-300';  // Tailwind lime-300 for gre low activity
+        if (value.count === 2) return 'bg-green-300';  // Tailwinden-300
         if (value.count === 3) return 'bg-emerald-400';  // Tailwind emerald-400
         return 'bg-emerald-600';  // Tailwind emerald-600 for max activity
     };

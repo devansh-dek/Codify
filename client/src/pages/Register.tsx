@@ -11,7 +11,6 @@ const Register: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Add your registration logic here e.preventDefault();
         try {
             const formValue = {
                 username: username,

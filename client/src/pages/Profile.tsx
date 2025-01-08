@@ -5,7 +5,6 @@ import { Button } from '../components/ui/button.tsx';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Heatmap from './Heatmap.tsx';
-
 interface User {
     userId: any;
     username: string;
@@ -25,6 +24,7 @@ interface Submission {
 function Profile() {
     const user = useRecoilValue(userState);
     const [submissions, setSubmissions] = useState<Submission[]>();
+
     useEffect(() => {
         const fetchSubmission = async () => {
             console.log("USer is ", user);
@@ -41,10 +41,27 @@ function Profile() {
 
     }, [user])
     const navigate = useNavigate();
+    const handleLoginClick = () => {
+        navigate('/login');
+    }
     if (!user.isAuthenticated) {
-        return <div className='font-bold w-full h-full justify-center items-center'>
-            USER NOT LOGGED IN!
-        </div>
+        return (
+            <div className="flex flex-col items-center justify-center w-full h-screen bg-gray-50 p-10">
+                <img
+                    src="/login.png"
+                    alt="Login required"
+                    onClick={handleLoginClick}
+                    className="w-32 h-32 mb-6 transition-transform duration-300 hover:scale-110"
+                />
+                <h1 className="text-4xl font-extrabold text-red-700 tracking-wider uppercase text-center mb-4">
+                    User not logged in!
+                </h1>
+                <p className="text-lg text-gray-600 text-center">
+                    Please login to continue accessing the platform.
+                </p>
+            </div>
+        );
+
     }
     const handleOnClick = (e: any) => {
         try {

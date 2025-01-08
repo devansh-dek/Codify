@@ -8,53 +8,43 @@ import { Link, useNavigate } from 'react-router-dom';
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [username, setUserName] = useState('');
+    const [error, setError] = useState<string | null>(null);
     const setUser = useSetRecoilState(userState);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const formValue = {
-                username,
-                email,
-                password,
-            };
-            console.log("form value is ", formValue);
-            const response = await axios.post('http://localhost:3000/api/v1/login', formValue, { withCredentials: true });
-            console.log(response, "Is our response");
+            const response = await axios.post(
+                'http://localhost:3000/api/v1/login',
+                { email, password },
+                { withCredentials: true }
+            );
 
-            if (response.data.exist === false) {
-                console.log("User doesn't exist");
+            if (!response.data.success) {
+                setError(response.data.message || 'Login failed. Please try again.');
                 return;
             }
 
-            if (response.data.success === true) {
-                console.log("Came HERE");
-                const userLogged = {
-                    userId: response.data.response.id,
-                    username: response.data.response.username,
-                    email: response.data.response.email,
-                    isAuthenticated: true
-                }
-                console.log("User logged are ", userLogged);
-                setUser(userLogged);
-                navigate('/blogs');
-
-                // Handle redirection or other actions on successful login
-            }
-
-            console.log(response.data);
-        } catch (error: any) {
-            console.error('Login error:', error.response ? error.response.data : error.message);
+            const userLogged = {
+                userId: response.data.response.id,
+                username: response.data.response.username,
+                email: response.data.response.email,
+                isAuthenticated: true,
+            };
+            setUser(userLogged);
+            navigate('/blogs');
+        } catch (err: any) {
+            setError(err.response?.data?.message || 'An error occurred. Please try again.');
         }
     };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gradient-to-r px-4">
-            <div className="relative w-full max-w-md p-8 bg-gray-600 rounded-xl shadow-2xl md:max-w-lg lg:max-w-xl xl:max-w-2xl">
+            <div className="relative w-full max-w-md p-8 bg-gray-600 rounded-xl shadow-2xl">
                 <form onSubmit={handleSubmit} className="relative z-10">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">Login</h2>
+                    <h2 className="text-3xl font-bold text-white mb-8 text-center">Login</h2>
+                    {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
                     <div className="mb-6">
                         <label htmlFor="email" className="flex items-center text-sm font-medium text-gray-300 mb-2">
                             <FaUserAlt className="mr-2 text-teal-400" /> Email
@@ -64,26 +54,13 @@ const Login: React.FC = () => {
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="p-4 border border-transparent rounded-md w-full bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            className="p-4 border rounded-md w-full bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
                             placeholder="Enter your email"
+                            aria-label="Email"
                             required
                         />
                     </div>
                     <div className="mb-6">
-                        <label htmlFor="username" className="flex items-center text-sm font-medium text-gray-300 mb-2">
-                            <FaUserAlt className="mr-2 text-teal-400" /> Username
-                        </label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUserName(e.target.value)}
-                            className="p-4 border border-transparent rounded-md w-full bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
-                            placeholder="Enter your username"
-                            required
-                        />
-                    </div>
-                    <div className="mb-8">
                         <label htmlFor="password" className="flex items-center text-sm font-medium text-gray-300 mb-2">
                             <FaLock className="mr-2 text-teal-400" /> Password
                         </label>
@@ -92,21 +69,22 @@ const Login: React.FC = () => {
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="p-4 border border-transparent rounded-md w-full bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            className="p-4 border rounded-md w-full bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500"
                             placeholder="Enter your password"
+                            aria-label="Password"
                             required
                         />
                     </div>
-
                     <button
                         type="submit"
-                        className="w-full py-3 bg-teal-500 text-white rounded-md hover:bg-teal-600 transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50"
+                        className="w-full py-3 bg-teal-500 text-white rounded-md hover:bg-teal-600 transition-transform transform hover:scale-105"
                     >
                         Login
                     </button>
                 </form>
-                <div className='p-2 m-2 flex justify-center'>Dont have a account ,
-                    <Link to="/register" className='font-bold'>
+                <div className="p-2 m-2 flex justify-center">
+                    Don’t have an account?{' '}
+                    <Link to="/register" className="font-bold">
                         Register!
                     </Link>
                 </div>

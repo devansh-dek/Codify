@@ -45,9 +45,9 @@ const BlogsPage: React.FC = () => {
                 console.log("LOGIN TO ");
                 return;
             }
-            await axios.patch(`http://localhost:3000/api/v1/blogs/${blogId}/${voteType}`, { userId });
+            await axios.patch(`http://localhost:3000/api/v1/blogs/${blogId}/${voteType}`, { userId }, { withCredentials: true });
             // Refresh blogs after voting
-            const response = await axios.get(`http://localhost:3000/api/v1/blogs?page=${currentPage}`);
+            const response = await axios.get(`http://localhost:3000/api/v1/blogs?page=${currentPage}`, { withCredentials: true });
             setBlogs(response.data.blogs);
         } catch (error) {
             console.error('Error voting:', error);

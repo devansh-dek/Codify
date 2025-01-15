@@ -2,45 +2,39 @@ const jwt = require('jsonwebtoken');
 const { JWT_KEY } = require('../config/serverConfig');
 const { StatusCodes } = require('http-status-codes');
 
-const authenticateJWT = async (req, res) => {
+const authenticateJWT = async (req, res, next) => {
     try {
-        console.log("headers are", req.cookies.token);
+        console.log("HERE");
+        console.log("headers are", req.cookies);
         const token = req.cookies.token;
         console.log(token, 'is our token');
+
         if (!token) {
             return res.status(200).json({
                 success: true,
                 message: "User is not Authenticated",
                 isAuthenticated: false
-
-            })
+            });
         }
 
-        jwt.verify(token, JWT_KEY, (err, decoded) => {
-            if (err) {
-                return res.status(StatusCodes.FORBIDDEN).json({
-                    message: "Invalid Token",
-                    success: false,
-                    isAuthenticated: false
-                })
-            }
-        })
-        req.user = decoded;
-        res.isAuthenticated = true;
-        next();
-        console.log(token, 'is our token');
+        // Use a synchronous or properly scoped `jwt.verify`
+        const decoded = jwt.verify(token, JWT_KEY); // This directly returns the decoded payload
 
-    }
-    catch (error) {
+        req.user = decoded; // Attach the decoded payload to `req.user`
+        res.isAuthenticated = true; // Mark the user as authenticated
+
+        console.log(decoded, 'is the decoded token');
+        next(); // Proceed to the next middleware
+    } catch (error) {
         console.log("error is ", error);
-        return res.status(404).json({
+        return res.status(StatusCodes.UNAUTHORIZED).json({
             success: false,
-            error: error.message,
+            message: error.message || "Authentication failed",
             isAuthenticated: false
-
-        })
+        });
     }
-}
+};
+
 module.exports = {
     authenticateJWT
-}
+};

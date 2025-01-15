@@ -58,7 +58,7 @@ class UserService {
             if (!response) {
                 throw { error: 'Invalid token' }
             }
-            const user = await userRepository.getByUsername(response.username);
+            const user = await userRepository.getByEmail(response.email);
 
             return user;
         }
@@ -89,6 +89,7 @@ class UserService {
     verifyToken(token) {
         try {
             const response = jwt.verify(token, JWT_KEY);
+            console.log(response, "is response from verify token")
             return response;
         }
         catch (error) {

@@ -16,6 +16,9 @@ class BlogService {
 
     async createBlog(data) {
         try {
+            if (!data.title || !data.description || !data.user) {
+                throw new Error("Blog data is incomplete");
+            }
             const response = await this.BlogRepository.create(data);
             return response;
         } catch (error) {

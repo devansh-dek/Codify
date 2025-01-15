@@ -5,16 +5,23 @@ const { StatusCodes } = require('http-status-codes');
 
 const create = async (req, res) => {
     try {
-        const response = await blogService.createBlog(req.body);
+        console.log("Checkpoint one for creating blog")
+        const userId = req.body.userId || req.user?.id;
+        if (!userId) {
+            throw new Error("User ID is required to create a blog.");
+        }
+        const blogData = { ...req.body, user: userId };
+        console.log(blogData, "is out blog data")
+        const response = await blogService.createBlog(blogData);
         return res.status(StatusCodes.CREATED).json({
+            success: true,
             blog: response,
-            success: true
         });
     } catch (error) {
-        console.log("Error in create function:", error);
+        console.error("Error in create:", error);
         return res.status(StatusCodes.BAD_REQUEST).json({
             success: false,
-            error: error.message
+            error: error.message,
         });
     }
 };

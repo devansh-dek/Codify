@@ -17,7 +17,7 @@ function CreateBlog() {
                 title, description, user: user.username
             };
             console.log("form value is ", formValue);
-            const response = await axios.post('http://localhost:3000/api/v1/blogs', formValue);
+            const response = await axios.post('http://localhost:3000/api/v1/blogs', formValue, { withCredentials: true });
             console.log(response, "Is our response");
 
             navigate('/blogs');

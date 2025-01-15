@@ -55,56 +55,76 @@ const BlogsPage: React.FC = () => {
     };
 
     return (
-        <div className="p-8 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6 text-center">Blogs</h1>
-            <div className="space-y-6">
-                {blogs.map((blog) => (
-                    <div key={blog.id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <h2 className="text-2xl font-semibold mb-2">{blog.title}</h2>
-                        <p className="text-gray-600 mb-2">By <span className="font-medium">{blog.user}</span></p>
-                        <p className="text-gray-800 mb-4">{blog.description}</p>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                                <button
-                                    onClick={() => handleVote(blog.id, 'upvote')}
-                                    className="text-green-500 hover:text-green-700 transition-colors duration-300"
-                                >
-                                    <FaArrowUp className="text-2xl" />
-                                </button>
-                                <span className="text-gray-700 text-lg">{blog.upvotes - blog.downvotes}</span>
-                                <button
-                                    onClick={() => handleVote(blog.id, 'downvote')}
-                                    className="text-red-500 hover:text-red-700 transition-colors duration-300"
-                                >
-                                    <FaArrowDown className="text-2xl" />
-                                </button>
+        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-5xl mx-auto">
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4">Community Blogs</h1>
+                    <p className="text-lg text-gray-600">Explore insights and experiences from our community</p>
+                </div>
+
+                <div className="space-y-8">
+                    {blogs.map((blog) => (
+                        <div key={blog.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                            <div className="p-8">
+                                <div className="flex items-center justify-between mb-6">
+                                    <div>
+                                        <h2 className="text-2xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                                            {blog.title}
+                                        </h2>
+                                        <p className="text-gray-600">
+                                            By <span className="font-medium text-blue-600">{blog.user}</span>
+                                        </p>
+                                    </div>
+                                    <div className="flex items-center space-x-6">
+                                        <button
+                                            onClick={() => handleVote(blog.id, 'upvote')}
+                                            className="group flex flex-col items-center"
+                                        >
+                                            <FaArrowUp className="text-2xl text-gray-400 group-hover:text-green-500 transition-colors" />
+                                            <span className="text-sm text-gray-500 group-hover:text-green-500 transition-colors">
+                                                Upvote
+                                            </span>
+                                        </button>
+                                        <span className="text-2xl font-bold text-gray-700">{blog.upvotes - blog.downvotes}</span>
+                                        <button
+                                            onClick={() => handleVote(blog.id, 'downvote')}
+                                            className="group flex flex-col items-center"
+                                        >
+                                            <FaArrowDown className="text-2xl text-gray-400 group-hover:text-red-500 transition-colors" />
+                                            <span className="text-sm text-gray-500 group-hover:text-red-500 transition-colors">
+                                                Downvote
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p className="text-gray-700 leading-relaxed">{blog.description}</p>
                             </div>
                         </div>
-                    </div>
-                ))}
-            </div>
-            <div className="mt-6 flex justify-between items-center">
-                <button
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-300"
-                >
-                    Previous
-                </button>
-                <span className="text-gray-700 text-lg">
-                    Page {currentPage} of {totalPages}
-                </span>
-                <button
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-300"
-                >
-                    Next
-                </button>
+                    ))}
+                </div>
+
+                <div className="mt-12 flex justify-center items-center space-x-4">
+                    <button
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="px-6 py-3 bg-white text-gray-700 rounded-lg shadow hover:shadow-md transition-shadow duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Previous
+                    </button>
+                    <span className="text-gray-600 font-medium">
+                        Page {currentPage} of {totalPages}
+                    </span>
+                    <button
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="px-6 py-3 bg-white text-gray-700 rounded-lg shadow hover:shadow-md transition-shadow duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Next
+                    </button>
+                </div>
             </div>
         </div>
     );
-
 };
 
 export default BlogsPage;

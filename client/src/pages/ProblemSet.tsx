@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { Circle, CheckCircle, AlertCircle } from 'lucide-react';
 
 
 //fetching all problems
@@ -30,30 +31,53 @@ function ProblemSet() {
 
         fetchProblems();
     }, [currentPage]);
+    const getDifficultyColor = (difficulty: number) => {
+        if (difficulty <= 1000) return 'text-green-500';
+        if (difficulty <= 2000) return 'text-blue-500';
+        return 'text-red-500';
+    };
+
+    const getDifficultyBadge = (difficulty: number) => {
+        if (difficulty <= 1000) return <CheckCircle className="w-5 h-5 text-green-500" />;
+        if (difficulty <= 2000) return <Circle className="w-5 h-5 text-blue-500" />;
+        return <AlertCircle className="w-5 h-5 text-red-500" />;
+    };
+
     return (
-        <>
-            <div className='font-bold p-2 m-2 text-4xl'>ProblemSet</div>
-            {/* //list of all problems */}
-            <div className='grid grid-cols-12  justify-between'>
-                <h1 className='text-2xl col-span-1 border border-slate-400 font-medium m-1 p-4'>Id</h1>
-                <h1 className='text-2xl col-span-9 border border-slate-400 font-medium m-1 p-4'>Title</h1>
-                <h1 className='text-2xl col-span-2 border border-slate-400 font-medium m-1 p-4'>Difficulty</h1>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-8">Problem Set</h1>
 
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+                <div className="grid grid-cols-12 bg-gray-50 border-b border-gray-200 py-3 px-4">
+                    <div className="col-span-1 font-semibold text-gray-600">#</div>
+                    <div className="col-span-8 font-semibold text-gray-600">Title</div>
+                    <div className="col-span-3 font-semibold text-gray-600 text-center">Difficulty</div>
+                </div>
+
+                <div className="divide-y divide-gray-200">
+                    {problems?.map((problem) => (
+                        <Link
+                            key={problem.id}
+                            to={`${problem.id}`}
+                            className="grid grid-cols-12 px-4 py-3 hover:bg-gray-50 transition-colors duration-150"
+                        >
+                            <div className="col-span-1 text-gray-500">{problem.id}</div>
+                            <div className="col-span-8 text-gray-900 font-medium hover:text-blue-600">
+                                {problem.title}
+                            </div>
+                            <div className="col-span-3 flex items-center justify-center space-x-2">
+                                {getDifficultyBadge(problem.difficulty)}
+                                <span className={`${getDifficultyColor(problem.difficulty)} font-medium`}>
+                                    {problem.difficulty}
+                                </span>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
             </div>
-            {/* //title rating submission */}
-            <div>
-                {problems?.map((problem) => (
-                    <div className='grid grid-cols-12 w-screen justify-between'>
-                        <div className='text-pretty font-semibold col-span-1 p-2 m-2 text-xl border border-slate-400'>{problem.id}</div>
-                        <Link to={`${problem.id}`} className='text-pretty font-semibold col-span-9 p-2 m-2 text-xl border border-slate-400'>{problem.title}</Link >
-                        <div className='text-pretty font-semibold col-span-2 p-2 m-2 text-xl border border-slate-400'>{problem.difficulty}</div>
-                    </div>
-                ))}
-            </div>
+        </div>
+    );
 
-        </>
-
-    )
 }
 
 export default ProblemSet;
